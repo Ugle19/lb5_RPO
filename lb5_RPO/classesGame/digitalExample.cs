@@ -13,19 +13,26 @@ namespace lb5_RPO.classesGame
             var difGM = difGameMath(difG);
             while (hp != 0)
             {
+
                 int value = rnd.Next(difGM.Item2, difGM.Item1);
+               // Console.WriteLine($"value = {value}");
                 int qw = 0;
                 int count = 1;
 
-                qw = mathFunc(mathO, count, value, rangeDM.Item2, rangeDM.Item1);
 
+
+                qw = mathFunc(mathO, count, value, rangeDM.Item2, rangeDM.Item1);
+                
                 switch ((int)mathO)
                 {
                     case 1: qw += lastStep(mathO, rangeDM.Item2, rangeDM.Item1); break;
                     case 2: qw -= lastStep(mathO, rangeDM.Item2, rangeDM.Item1); break;
                     case 3: qw *= lastStep(mathO, rangeDM.Item2, rangeDM.Item1); break;
                 }
+
+
                 bool exit = proverka(qw);
+
                 if (exit == true)
                 {
                     expGame += difGM.Item3;
@@ -40,6 +47,7 @@ namespace lb5_RPO.classesGame
             {
                 Console.WriteLine($"Ваш опыт: {expGame}");
             }
+
         }
 
         //проверка результата
@@ -82,89 +90,143 @@ namespace lb5_RPO.classesGame
         public static int mathFunc(mathOperation mathO, int count, int value, int Item2, int Item1)
         {
             int result = 0;
-            Random rnd = new Random();
-            int a = rnd.Next(Item2, Item1);
-            do
+            if ((int)mathO != 4)
             {
-                switch ((int)mathO)
+                for (int q = value; q >= 1; q--)
                 {
-                    case 1:
-                        {
-                            Console.Write(a + " + ");
-                            result += a;
-                            break;
-                        }
-                    case 2:
-                        {
-                            Console.Write(a + " - ");
-                            if (count == 1)
+                    Random rnd = new Random();
+                    int a = rnd.Next(Item2, Item1);
+                    switch ((int)mathO)
+                    {
+                        case 1:
                             {
-                                result = a;
+                                Console.Write(a + " + ");
+                                result += a;
+                                break;
                             }
-                            else { result -= a; }
-
-                            break;
-                        }
-                    case 3:
-                        {
-                            Console.Write(a + " * ");
-                            if (count == 1)
+                        case 2:
                             {
-                                result = a;
-                            }
-                            else { result = result * a; }
-                            break;
-                        }
-                    case 4:
-                        {
+                                Console.Write(a + " - ");
+                                if (count == 1)
+                                {
+                                    result = a;
+                                }
+                                else { result -= a; }
 
-                            allRandom(result, a);
-                            break;
-                        }
+                                break;
+                            }
+                        case 3:
+                            {
+                                Console.Write(a + " * ");
+                                if (count == 1)
+                                {
+                                    result = a;
+                                }
+                                else { result = result * a; }
+                                break;
+                            }
+                    }
                 }
-                count++;
-                value--;
-            } while ((value - 1) == 0);
+            }
+            else if ((int)mathO == 4)
+            {
+                result = allRandom(Item2, Item1, value);
+            }
             return (int)result;
         }
 
-        //функция для всех знаков
-        public static int allRandom(int result, int a)
-        {
-            int count = 0;
-            int lastStep = 0;
-            Random rndAll = new Random();
-            int y = rndAll.Next(1, 4);
-            if (count == 1)
-            {
-                lastStep = y;
-            }
-            switch (lastStep)
-            {
-                case 1:
-                    result += a;
-                    break;
-                case 2:
-                    {
-                        if (count == 1)
-                        {
-                            result = a;
-                        }
-                        else { result -= a; }
 
-                        break;
-                    }
-                case 3:
-                    {
-                        if (count == 1)
-                        {
-                            result = a;
-                        }
-                        else { result *= a; }
-                        break;
-                    }
+
+
+        //функция для всех знаков
+        public static int allRandom(int Item2, int Item1, int value)
+        {
+            int result = 0;
+            
+            int q = value + 1;
+            List<int> masA = new List<int>();
+
+            for (int i = 0;i<q;i++)
+            {
+                Random rnd = new Random();
+                int a = rnd.Next(Item2, Item1);
+                masA.Add(a);
+                Console.WriteLine($"masA[{i + 1}] = {masA[i]}");
             }
-            switch (y)
+            List<int> mas = new List<int>();
+
+            List<int> mathMas = new List<int>();
+            for(int w = 0;w<value;w++)
+            {
+
+                Random rndAll = new Random();
+                int y = rndAll.Next(1, 4);
+                mathMas.Add(y);
+                if (mathMas[w] == 1)
+                {
+                    Console.WriteLine($"mathM[{w + 1}] - +");
+
+                }
+                else if (mathMas[w] == 2)
+                {
+                    Console.WriteLine($"mathM[{w + 1}] - -");
+                }
+                else if ((mathMas[w] == 3))
+                {
+                    Console.WriteLine($"mathM[{w + 1}] - *");
+                }
+            }
+            for (int v = 0; v < value; v++)
+            {
+                printRandom(v, masA[v], mathMas[v]);
+            }
+            Console.WriteLine(masA[q-1]);
+            //искать в массиве сначала умножение, деление и тд.
+            //int countMM = mathMas.Count;
+            //int countMA = masA.Count;
+            for (int y = 0; y < mathMas.Count; y++)
+            {
+                if (mathMas[y] == 3)
+                {
+                    masA[y] *= masA[y + 1];
+                    masA.Remove(masA[y + 1]);
+                    mathMas.Remove(mathMas[y]);
+                }
+            }
+            //for (int y = 0; y < mathMas.Count; y++)
+            //{
+            //    Console.WriteLine($"mathM[{y + 1}] - {mathMas[y]}");
+            //}
+            //for(int i =0;i<masA.Count;i++)
+            //{
+            //    Console.WriteLine($"masA[{i + 1}] = {masA[i]}");
+            //}
+            int countRnd = 0;
+            for (int i = 0; i < masA.Count - 1; i++)
+            {
+                if (countRnd < mathMas.Count - 1)
+                {
+                    switch (mathMas[countRnd])
+                    {
+                        case 1: result += masA[i]; break;
+                        case 2: result -= masA[i]; break;
+                    }
+                }
+                countRnd++;
+
+            }
+            q = masA.Count;
+            switch (mathMas[countRnd - 1])
+            {
+                case 1: result += masA[q - 1]; break;
+                case 2: result -= masA[q - 1]; break;
+            }
+            return result;
+        }
+
+        public static void printRandom(int count, int a, int operat)
+        {
+            switch (operat)
             {
                 case 1:
                     Console.Write(a + " + ");
@@ -180,10 +242,9 @@ namespace lb5_RPO.classesGame
                         break;
                     }
             }
-            lastStep = y;
-            //valueRandom = lastStep;
-            return result;
         }
+
+
 
 
         // выбор количества символов в числе
