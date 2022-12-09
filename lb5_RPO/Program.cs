@@ -44,10 +44,6 @@ namespace lb5_RPO
                 }
             } while (goodBye != true);
 
-            List<int> v = new List<int> { 1, 2, 3, 4,5,6,7,8,9,0 };
-
-            
-
             Console.Write("\n\nСпасибо, что поиграли в мою игру<3... ");
             Console.ReadKey();
         }
