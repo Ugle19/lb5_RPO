@@ -182,46 +182,7 @@ namespace lb5_RPO.classesGame
             popo += masA[masA.Count - 1];
 
             Console.WriteLine(popo);
-
             result = ParseExpression(popo);
-
-            //for (int y = 0; y < mathMas.Count; y++)
-            //{
-            //    if (mathMas[y] == 3)
-            //    {
-            //        masA[y] *= masA[y + 1];
-            //        masA.Remove(masA[y + 1]);
-            //        mathMas.Remove(mathMas[y]);
-            //    }
-            //}
-            ////for (int y = 0; y < mathMas.Count; y++)
-            ////{
-            ////    Console.WriteLine($"mathM[{y + 1}] - {mathMas[y]}");
-            ////}
-            ////for(int i =0;i<masA.Count;i++)
-            ////{
-            ////    Console.WriteLine($"masA[{i + 1}] = {masA[i]}");
-            ////}
-            //int countRnd = 0;
-            //for (int i = 0; i < masA.Count - 1; i++)
-            //{
-            //    if (countRnd < mathMas.Count - 1)
-            //    {
-            //        switch (mathMas[countRnd])
-            //        {
-            //            case 1: result += masA[i]; break;
-            //            case 2: result -= masA[i]; break;
-            //        }
-            //    }
-            //    countRnd++;
-
-            //}
-            //q = masA.Count;
-            //switch (mathMas[countRnd - 1])
-            //{
-            //    case 1: result += masA[q - 1]; break;
-            //    case 2: result -= masA[q - 1]; break;
-            //}
             return result;
         }
 
@@ -233,11 +194,13 @@ namespace lb5_RPO.classesGame
         private static int ParseExpression(string expString)
         {
             expString = expString.Replace(" ", "");
+            //разделение чисел и знаков в листы
             List<char> ops = expString.Split(allDigits, StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]).ToList();
             List<int> numbers = expString.Split(supportedOperators, StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToList();
 
             if (ops.Count + 1 != numbers.Count)
                 throw new FormatException("Некорректное математическое выражение");
+
 
             foreach (int priority in priorities.Distinct())
             {
