@@ -169,7 +169,6 @@ namespace lb5_RPO.classesGame
                     case 2: mathMas.Add("-"); break;
                     case 3: mathMas.Add("*"); break;
                 }
-                //Console.WriteLine($"mathM[{w + 1}] - {mathMas[w]}");
             }
 
            
@@ -187,9 +186,9 @@ namespace lb5_RPO.classesGame
         }
 
 
-        private static readonly char[] supportedOperators = "*+-".ToCharArray();
-        private static readonly char[] allDigits = "0123456789".ToCharArray();
-        private static readonly int[] priorities = new[] { 0,  1, 1 };
+        private static readonly char[] supportedOperators = "*+-".ToCharArray(); // знаки для примера 
+        private static readonly char[] allDigits = "0123456789".ToCharArray(); // цифры для примера 
+        private static readonly int[] priorities = new[] { 0,  1, 1 }; // приоритет действий
 
         private static int ParseExpression(string expString)
         {
